@@ -11,6 +11,8 @@ from django.http        import HttpResponse #para manejar peticiones http
 # puedo crear muchas apps que haran parte del proyecto
 # el archivo Views.py es elarchivo principal que controla la data entre modelo y templates y recibe las peticiones http.
 
+
+
 #primera funcion de ruta, pero hay uqe asociarla a una ruta usando el archivo url.py de la app
 def index(request):
     return HttpResponse("Hello, world!")
