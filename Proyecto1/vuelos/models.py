@@ -1,5 +1,8 @@
 from django.db import models
 
+# es posible asociar el modelo a una base de datos ya existente
+# referencias https://uniwebsidad.com/libros/django-1-0
+
 # algunas subclases de Field, para asociar los casos mas tipicos de datos para las bases de datos
 
 # models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='')   el dato sera entero y aumenta automaticamente tal ocmo un SERIAL
@@ -30,19 +33,36 @@ from django.db import models
 #   - python3 manage.py sqlmigrate appname xxxx (numero del archivo app/migrations/initial_py) 
 # ultimo paso basico importante configurar la base de datos proyecto/settings.py
 # realizar la migracion
-#   - python3  
+#   - python3 manage.py migrate 
 
-class vuelos(models.Model):  # Models.model con esto vuelos se convierte en una clase que pertenece a models.Model
-    id_origin = models.AutoField(primary_key=True,auto_created=True,serialize=False,verbose_name='pk_origin')
-    origin = models.CharField(max_length=64)
-    destination = models.CharField(max_length=64)
-    duration = models.IntegerField(null=True)
+# class vuelos(models.Model):  # Models.model con esto vuelos se convierte en una clase que pertenece a models.Model
+#     id_origin = models.AutoField(primary_key=True,auto_created=True,serialize=False,verbose_name='pk_origin')
+#     origin = models.CharField(max_length=64)
+#     destination = models.CharField(max_length=64)
+#     duration = models.IntegerField(null=True)
 
-    # para cualquier clase __str__ define cmo se debe ver un objeto de esta clase al ser impreso en pantalla
+    # # para cualquier clase __str__ define cmo se debe ver un objeto de esta clase al ser impreso en pantalla
+    # def __str__(self):
+    #     #return f"{self.id_origin} - {self.origin} to {self.destination}" # este formato de string solo funciona en python3.7
+    #     return str(self.id_origin) +' - '+ str(self.origin) +' to '+ str(self.destination) # python3
+
+class airports(models.Model):
+    id_airport = models.AutoField(primary_key=True,auto_created=True,serialize=False,verbose_name='pk_airport')
+    codigo = models.IntegerField()
+    ciudad = models.CharField(max_length=64)
+
     def __str__(self):
-        #return f"{self.id_origin} - {self.origin} to {self.destination}" # este formato de string solo funciona en python3.7
-        return str(self.id_origin) +' - '+ str(self.origin) +' to '+ str(self.destination) # python3
+        return str(self.city) + ' (' + str(self.codigo) + ')'
 
+
+class vuelos(models.Model):
+    id_vuelos = models.AutoField(primary_key=True,auto_created=True,serialize=False,verbose_name='pk_vuelo')
+    id_origin = models.ForeignKey(airports,on_delete=models.CASCADE,related_name='fk_origen')
+    id_destination = models.ForeignKey(airports,on_delete=models.CASCADE,related_name='fk_destino')
+    duration = models.IntegerField(null=True)
+   
+    def __str__(self):
+        return str(self.id_origin) +' - '+ str(self.origin) +' to '+ str(self.destination) # python3
 
 # Django Shell para guardar datos
 #   - python3 manage.py shell
@@ -55,4 +75,6 @@ class vuelos(models.Model):  # Models.model con esto vuelos se convierte en una 
 # restorna una lista llamada "queryList" pero no es observable a simple vista, se puede crear una funcion __str__ en le modelo para observar los datos
 # vuelos.objects.all()[0]
 # al crear la funcion __str__ los elemntos dentro de esta lista tendran el formato establecido por esta funcion
+
+
 
