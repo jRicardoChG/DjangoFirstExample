@@ -1,12 +1,15 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>{{vuelo.id_vuelos}}</title>
-</head>
-<body>
-    {{vuelo.id_origin}}
-</body>
-</html>
+{% extends "vuelos/base.html" %}
+
+{% block title %}
+    Vuelo {{ vuelo.id_vuelos }}
+{% endblock %}
+
+{% block body %}
+<h1>Vuelo {{ vuelo.id_vuelos }}</h1>
+<ul>
+    <li>Origin: {{ vuelo.id_origin }}</li>
+    <li>Destination: {{ vuelo.id_destination }}</li>
+</ul>
+<a href="{% url 'indexa' %}">Back to full listing</a>
+
+{% endblock %}

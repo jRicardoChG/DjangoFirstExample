@@ -25,7 +25,8 @@ SECRET_KEY = '3e%6mjes9%ze^_otrc(84bzo%#s^ow#0%g^*xtfwumoq$54fa*'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+# para que django pueda servir a todos los host posibles o sol oa host especificos
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition

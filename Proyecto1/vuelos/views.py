@@ -18,7 +18,7 @@ logger = logging.getLogger(__name__)
 #primera funcion de ruta, pero hay uqe asociarla a una ruta usando el archivo url.py de la app
 
 def index(request):
-    datos = {"aereopuertos":vuelos.objects.all()}
+    datos = {"vuelosDisponibles":vuelos.objects.all()}
     return render(request,"vuelos/index.html",datos)
 
 def home(request):
