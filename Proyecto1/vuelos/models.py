@@ -48,11 +48,17 @@ from django.db import models
 
 class airports(models.Model):
     id_airport = models.AutoField(primary_key=True,auto_created=True,serialize=False,verbose_name='pk_airport')
-    codigo = models.IntegerField()
+    codigo = models.CharField(max_length=10)
     ciudad = models.CharField(max_length=64)
 
+    def getCodigo(self):
+        return self.codigo
+    
+    def getCiudad(self):
+        return self.ciudad
+
     def __str__(self):
-        return str(self.city) + ' (' + str(self.codigo) + ')'
+        return str(self.ciudad) + ' (' + str(self.codigo) + ')'
 
 
 class vuelos(models.Model):
@@ -62,7 +68,7 @@ class vuelos(models.Model):
     duration = models.IntegerField(null=True)
    
     def __str__(self):
-        return str(self.id_origin) +' - '+ str(self.origin) +' to '+ str(self.destination) # python3
+        return str(self.id_vuelos) +' - '+ str(self.id_origin) +' to '+ str(self.id_destination) # python3
 
 # Django Shell para guardar datos
 #   - python3 manage.py shell
@@ -75,6 +81,7 @@ class vuelos(models.Model):
 # restorna una lista llamada "queryList" pero no es observable a simple vista, se puede crear una funcion __str__ en le modelo para observar los datos
 # vuelos.objects.all()[0]
 # al crear la funcion __str__ los elemntos dentro de esta lista tendran el formato establecido por esta funcion
-
-
-
+# crear un elemento en una tabla con foreign keys
+# vuelo = vuelos(id_origin=airports.objects.all()[0],id_destination=airports.objects.all()[1],duration=415) el directamente asocia las primary keys de las tablas
+# se puede listar cada columna como una instancia de la clase
+# vuelo.id_origin, vuelo.duration, etc.
