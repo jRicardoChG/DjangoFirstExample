@@ -46,6 +46,7 @@ from django.db import models
     #     #return f"{self.id_origin} - {self.origin} to {self.destination}" # este formato de string solo funciona en python3.7
     #     return str(self.id_origin) +' - '+ str(self.origin) +' to '+ str(self.destination) # python3
 
+
 class airports(models.Model):
     id_airport = models.AutoField(primary_key=True,auto_created=True,serialize=False,verbose_name='pk_airport')
     codigo = models.CharField(max_length=10)
@@ -59,8 +60,7 @@ class airports(models.Model):
 
     def __str__(self):
         return str(self.ciudad) + ' (' + str(self.codigo) + ')'
-
-
+        
 class vuelos(models.Model):
     id_vuelos = models.AutoField(primary_key=True,auto_created=True,serialize=False,verbose_name='pk_vuelo')
     id_origin = models.ForeignKey(airports,on_delete=models.CASCADE,related_name='fk_origen')
@@ -74,14 +74,37 @@ class vuelos(models.Model):
 #   - python3 manage.py shell
 # from vuelos.models import vuelos
 
-# crear un registro en la tabla vuelos
+# crear un registro en la tabla vuelos si no tiene foreign keys
 #  - f = vuelos(origin="New York", destination="London", duration=415)
 #  - f.save()
 
 # restorna una lista llamada "queryList" pero no es observable a simple vista, se puede crear una funcion __str__ en le modelo para observar los datos
 # vuelos.objects.all()[0]
 # al crear la funcion __str__ los elemntos dentro de esta lista tendran el formato establecido por esta funcion
+
 # crear un elemento en una tabla con foreign keys
 # vuelo = vuelos(id_origin=airports.objects.all()[0],id_destination=airports.objects.all()[1],duration=415) el directamente asocia las primary keys de las tablas
 # se puede listar cada columna como una instancia de la clase
 # vuelo.id_origin, vuelo.duration, etc.
+
+# relacion many To many
+# blank=True permite que los pasajeros no deban ser asociados con un vuelo 
+
+class pasajeros(models.Model):
+    id_pasajero = models.AutoField(primary_key=True,auto_created=True,serialize=False,verbose_name="pk_pasajero")
+    nombre = models.CharField(max_length=64)
+    apellido = models.CharField(max_length=64)
+    vuelos = models.ManyToManyField(vuelos,blank=True, related_name="pasajerosq") # este valor related_name es com orelaicon en la tabla vuelos los datos de pasajeros, asi puedo hacer consultas en los vuelos sobre que pasajeros tiene asignados
+
+    def __str__(self):
+        return str(self.nombre) + str(self.apellido)
+
+#como asociar pasajeros a un vuelos dada su relaicon maytomany
+
+# sean v1 vuelo y p1 pasajero objetos de las clases modelos
+# p1 = pasajero(nombre="hernesto",apellido="jose")
+# p1.vuelos.add(v1)
+# p1.vuelos.all() lista todos los vuelos a los que hace parte este pasajero
+# v1.pasajerosq.all()  lista todos los pasajeros que hacen parte de este vuelo
+
+

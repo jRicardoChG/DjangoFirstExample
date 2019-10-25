@@ -28,13 +28,17 @@ def saludo(request):
     return HttpResponse("Hola soy una subcarpeta")
 
 # cuando solicito un elelmento especifico .objects me traE LO QUE LA FUNCION __STR__ TIENE POR OBLIGACION MOSTRAR y sus columnas si quiero
+# vuelo_id se definio en el archivo urls.py como el integer que va en la url pidiendo el vuelo
 def Vuelos(request,vuelo_id):
     try:
         vueloEspecifico = vuelos.objects.get(pk=vuelo_id)
     except:
         raise Http404("el vuelo no existe")
     datos = {
-        "vuelo" : vueloEspecifico
+        "vuelo" : vueloEspecifico,
+        "pasajeros" : vueloEspecifico.pasajerosq.all()
     }
     print(datos["vuelo"])
     return render(request,"vuelos/vuelo.html",datos)
+
+

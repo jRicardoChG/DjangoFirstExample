@@ -9,6 +9,14 @@
 <ul>
     <li>Origin: {{ vuelo.id_origin }}</li>
     <li>Destination: {{ vuelo.id_destination }}</li>
+    <h3>Pasajeros</h3>
+    <ul>    
+        {%for personas in pasajeros%}
+        <li>{{personas.nombre}} {{personas.apellido}}</li>
+        {% empty %}  <!--empty se ejecuta si pasajeros llega vacio-->
+        <li>No hay pasajeros</li>
+        {%endfor%}
+    </ul>
 </ul>
 <a href="{% url 'indexa' %}">Back to full listing</a>
 
