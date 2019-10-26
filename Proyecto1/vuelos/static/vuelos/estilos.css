@@ -1,0 +1,13 @@
+
+html{
+    background-color: lightcyan;
+}
+
+a{
+    color:lightcoral;
+    /* text-decoration: lightcoral; */
+    text-decoration: none;
+}
+h1, h2, h3{
+    color:darkcyan;
+}

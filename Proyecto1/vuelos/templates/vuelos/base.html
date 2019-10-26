@@ -1,9 +1,12 @@
+{% load static %} <!--permite que en esta apgina carguen los elementos static que estan en la ruta: Proyecto1/appname/static/appname/estilos.css, al mismo nivel de los templates-->
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="/static/vuelos/estilos.css">
     <title>{% block title %}{% endblock %}</title>
 </head>
 <body>

@@ -45,10 +45,10 @@ def Vuelos(request,vuelo_id):
 
 def book(request,vuelo_id):
     try:
-        idPasajero = int(request.POST["pasajero"])
+        idPasajero = int(request.POST["pasajero"]) 
         vueloRegistrar = vuelos.objects.get(pk=vuelo_id)
         pasajeroActual = pasajeros.objects.get(pk=idPasajero)
-        print("hola has llegado hasta aca: ", idPasajero, vueloRegistrar, pasajeroActual )
+        print("hola has llegado hasta aca: ", idPasajero, vueloRegistrar, pasajeroActual)
     except KeyError:
         return render(request,"vuelos/error.html",{"message":"No selection"})
     except vuelos.DoesNotExist:
