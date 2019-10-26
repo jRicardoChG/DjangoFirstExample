@@ -18,6 +18,22 @@
         {%endfor%}
     </ul>
 </ul>
+
+{%if no_pasajeros %}
+    <h2>Añadir pasajero</h2>
+    <form action="/vuelos/{{vuelo.id_vuelos}}/book" method="POST">
+        {% csrf_token %}
+        <select name="pasajero">
+            {% for persona in no_pasajeros %}
+                <option value="{{ persona.id_pasajero }}">{{persona.nombre}} {{persona.apellido}}</option>
+            {% endfor %}
+        </select>
+        <input type="submit" value="Anadir al Vuelo">
+    </form>
+{% else %}
+    <div>No hay pasajeros para anadir</div>
+{% endif %}
+
 <a href="{% url 'indexa' %}">Back to full listing</a>
 
 {% endblock %}

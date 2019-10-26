@@ -1,6 +1,7 @@
 from django.shortcuts   import render       # viene por defecto a crear la vista
-from django.http        import HttpResponse,Http404 #para manejar peticiones http
-from .models      import vuelos,airports    # importo los models para poder obtener datos del mismo
+from django.http        import HttpResponse, Http404, HttpResponseRedirect #para manejar peticiones http
+from .models            import vuelos, airports, pasajeros    # importo los models para poder obtener datos del mismo
+from django.urls        import reverse
 import logging
 import sys
 # Create your views here.
@@ -36,9 +37,23 @@ def Vuelos(request,vuelo_id):
         raise Http404("el vuelo no existe")
     datos = {
         "vuelo" : vueloEspecifico,
-        "pasajeros" : vueloEspecifico.pasajerosq.all()
+        "pasajeros" : vueloEspecifico.pasajerosq.all(),
+        "no_pasajeros": pasajeros.objects.exclude(vuelos=vueloEspecifico).all() # elimino a todos los pasajeros que ya estan en este vuelo y retorno del modelo todos los demas
     }
-    print(datos["vuelo"])
+    print(datos)
     return render(request,"vuelos/vuelo.html",datos)
 
-
+def book(request,vuelo_id):
+    try:
+        idPasajero = int(request.POST["pasajero"])
+        vueloRegistrar = vuelos.objects.get(pk=vuelo_id)
+        pasajeroActual = pasajeros.objects.get(pk=idPasajero)
+        print("hola has llegado hasta aca: ", idPasajero, vueloRegistrar, pasajeroActual )
+    except KeyError:
+        return render(request,"vuelos/error.html",{"message":"No selection"})
+    except vuelos.DoesNotExist:
+        return render(request,"vuelos/error.html",{"message":"No existe el vuelo"})
+    except pasajeros.DoesNotExist:
+        return render(request,"vuelos/error.html",{"message":"No existe el pasajero"})
+    pasajeroActual.vuelos.add(vueloRegistrar)
+    return HttpResponseRedirect(reverse("Vuelos",args=(vuelo_id,)))
