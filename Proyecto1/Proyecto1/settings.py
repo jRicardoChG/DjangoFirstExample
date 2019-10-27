@@ -33,6 +33,7 @@ ALLOWED_HOSTS = ["*"]
 # hay que incluri las aplicaciones que usan modelo, este codigo se encoentra en apps.py de cada una de las apps
 
 INSTALLED_APPS = [
+    'usuarios.apps.UsuariosConfig',
     'vuelos.apps.VuelosConfig', # Yo lo añadi para la app vuelos en suarchivo apps.py esta la clase VuelosConfig creada por Django
     'django.contrib.admin',
     'django.contrib.auth',

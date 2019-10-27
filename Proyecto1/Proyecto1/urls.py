@@ -27,7 +27,9 @@ Including another URLconf
 from django.contrib     import admin
 from django.urls        import path,include        # el archivo original no tiene el include
 
+
 urlpatterns = [
+    path("usuarios/",include("usuarios.urls")),
     path("resta/",include("restaurante.urls")),
     path("vuelos/",include("vuelos.urls")),
     path('admin/', admin.site.urls)
